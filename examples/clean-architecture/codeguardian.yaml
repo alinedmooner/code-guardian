@@ -1,0 +1,52 @@
+version: "1.0"
+project_name: "clean-architecture-example"
+architecture: "clean"
+
+modules:
+  - name: "domain"
+    path: "src/domain"
+    layer: "domain"
+
+  - name: "application"
+    path: "src/application"
+    layer: "application"
+
+  - name: "infrastructure"
+    path: "src/infrastructure"
+    layer: "infrastructure"
+
+  - name: "presentation"
+    path: "src/presentation"
+    layer: "presentation"
+
+rules:
+  # Domain layer must not depend on any outer layer
+  - type: "no_import"
+    from: "domain"
+    to: ["application", "infrastructure", "presentation"]
+    message: "Domain layer must not depend on outer layers (Dependency Rule violation)"
+    severity: "error"
+
+  # Application layer can depend on domain but not infrastructure or presentation
+  - type: "no_import"
+    from: "application"
+    to: ["infrastructure", "presentation"]
+    message: "Application layer must not depend on infrastructure or presentation layers"
+    severity: "error"
+
+  # Infrastructure can depend on application and domain but not presentation
+  - type: "no_import"
+    from: "infrastructure"
+    to: ["presentation"]
+    message: "Infrastructure should not depend on presentation layer"
+    severity: "warning"
+
+exclude_paths:
+  - "tests"
+  - "venv"
+  - ".venv"
+  - "__pycache__"
+  - ".pytest_cache"
+
+python_version: "3.11"
+

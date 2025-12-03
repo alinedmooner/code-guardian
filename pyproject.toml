@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codeguardian"
+version = "0.1.0"
+description = "Automated architecture analyzer for Python projects"
+readme = "README.md"
+authors = [
+    {name = "CodeGuardian Team"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+]
+keywords = ["architecture", "linter", "static-analysis", "code-quality", "clean-architecture"]
+
+dependencies = [
+    "pyyaml>=6.0",
+    "click>=8.0",
+    "colorama>=0.4",
+    "typing-extensions>=4.0; python_version<'3.10'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+    "isort>=5.12",
+]
+github = [
+    "PyGithub>=2.0",
+    "requests>=2.28",
+]
+
+[project.urls]
+Homepage = "https://github.com/code-guardian/code-guardian"
+Documentation = "https://docs.codeguardian.dev"
+Repository = "https://github.com/code-guardian/code-guardian"
+Issues = "https://github.com/code-guardian/code-guardian/issues"
+
+[project.scripts]
+codeguardian = "codeguardian.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=codeguardian --cov-report=term-missing"
+

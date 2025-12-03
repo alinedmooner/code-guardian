@@ -1,0 +1,52 @@
+# Example configuration for CodeGuardian
+# This demonstrates a Clean Architecture setup
+
+version: "1.0"
+project_name: "codeguardian"
+architecture: "clean"
+
+modules:
+  - name: "analyzer"
+    path: "src/codeguardian/analyzer"
+    layer: "core"
+
+  - name: "models"
+    path: "src/codeguardian/models"
+    layer: "core"
+
+  - name: "config"
+    path: "src/codeguardian/config"
+    layer: "application"
+
+  - name: "reporters"
+    path: "src/codeguardian/reporters"
+    layer: "infrastructure"
+
+  - name: "github"
+    path: "src/codeguardian/github"
+    layer: "infrastructure"
+
+rules:
+  # Core modules should not depend on infrastructure
+  - type: "no_import"
+    from: "analyzer"
+    to: ["reporters", "github"]
+    message: "Core analyzer should not depend on infrastructure layers"
+    severity: "error"
+
+  - type: "no_import"
+    from: "models"
+    to: ["reporters", "github", "config"]
+    message: "Models should not depend on other layers"
+    severity: "error"
+
+exclude_paths:
+  - "tests"
+  - "venv"
+  - ".venv"
+  - "__pycache__"
+  - "examples"
+  - ".git"
+
+python_version: "3.8"
+

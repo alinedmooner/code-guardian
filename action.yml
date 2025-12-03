@@ -1,0 +1,110 @@
+name: 'CodeGuardian Architecture Check'
+          });
+            body: comment
+            repo: context.repo.repo,
+            owner: context.repo.owner,
+            issue_number: context.issue.number,
+          github.rest.issues.createComment({
+
+          }
+            });
+              comment += '\n';
+              }
+                comment += `- 💡 ${v.suggestion}\n`;
+              if (v.suggestion) {
+              comment += `- From: \`${v.from_module}\` → To: \`${v.to_module}\`\n`;
+              comment += `- File: \`${v.file}:${v.line}\`\n`;
+              comment += `${emoji} **${v.severity.toUpperCase()}**: ${v.message}\n`;
+              const emoji = v.severity === 'error' ? '🔴' : '⚠️';
+            report.violations.forEach((v, i) => {
+            
+            comment += '### Violations\n\n';
+            comment += `- **Architecture:** ${report.architecture}\n\n`;
+            comment += `- **Project:** ${report.project}\n`;
+            comment += `❌ **Found ${report.total_violations} violation(s)**\n\n`;
+          } else {
+            comment += `- **Architecture:** ${report.architecture}\n`;
+            comment += `- **Project:** ${report.project}\n`;
+            comment += '✅ **No violations detected!** Architecture is clean.\n\n';
+          if (report.passed) {
+          
+          let comment = '## 🛡️ CodeGuardian Architecture Check\n\n';
+          
+          const report = JSON.parse(fs.readFileSync('codeguardian-report.json', 'utf8'));
+          const fs = require('fs');
+        script: |
+        github-token: ${{ github.token }}
+      with:
+      uses: actions/github-script@v6
+      if: inputs.comment-on-pr == 'true' && github.event_name == 'pull_request'
+    - name: Comment on PR
+    
+        fi
+          exit 1
+        if [ "$PASSED" = "false" ] && [ "${{ inputs.fail-on-violation }}" = "true" ]; then
+        
+        echo "passed=$PASSED" >> $GITHUB_OUTPUT
+        echo "violations-count=$VIOLATIONS" >> $GITHUB_OUTPUT
+        
+        PASSED=$(cat codeguardian-report.json | python -c "import sys, json; print(str(json.load(sys.stdin)['passed']).lower())")
+        VIOLATIONS=$(cat codeguardian-report.json | python -c "import sys, json; print(json.load(sys.stdin)['total_violations'])")
+        
+          --fail-on-violation=false
+          --output codeguardian-report.json \
+          --format json \
+          --config "${{ inputs.config-path }}" \
+        codeguardian analyze \
+        set +e
+      run: |
+      shell: bash
+      id: analyze
+    - name: Run CodeGuardian Analysis
+    
+        pip install codeguardian
+      run: |
+      shell: bash
+    - name: Install CodeGuardian
+
+        python-version: ${{ inputs.python-version }}
+      with:
+      uses: actions/setup-python@v4
+    - name: Set up Python
+  steps:
+  using: 'composite'
+runs:
+
+    description: 'Whether the check passed (true/false)'
+  passed:
+
+    description: 'Number of violations found'
+  violations-count:
+outputs:
+
+    default: '3.11'
+    required: false
+    description: 'Python version to use'
+  python-version:
+
+    default: 'true'
+    required: false
+    description: 'Post a comment on the PR with results'
+  comment-on-pr:
+
+    default: 'true'
+    required: false
+    description: 'Fail the action if violations are found'
+  fail-on-violation:
+
+    default: 'codeguardian.yaml'
+    required: false
+    description: 'Path to codeguardian.yaml configuration file'
+  config-path:
+inputs:
+
+  color: 'blue'
+  icon: 'shield'
+branding:
+
+author: 'CodeGuardian Team'
+description: 'Automated architecture analyzer for Python projects'
+
