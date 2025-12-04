@@ -16,7 +16,7 @@ name: 'CodeGuardian Architecture Check'
               comment += `- File: \`${v.file}:${v.line}\`\n`;
               comment += `${emoji} **${v.severity.toUpperCase()}**: ${v.message}\n`;
               const emoji = v.severity === 'error' ? '🔴' : '⚠️';
-            report.violations.forEach((v, i) => {
+            report.misalignments.forEach((v, i) => {
             
             comment += '### Violations\n\n';
             comment += `- **Architecture:** ${report.architecture}\n\n`;

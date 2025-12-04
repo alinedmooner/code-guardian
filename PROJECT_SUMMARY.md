@@ -15,7 +15,7 @@ code-guardian/
 │   │   └── templates.py       # Plantillas de arquitecturas
 │   ├── models/                # Modelos de datos
 │   │   ├── config.py          # Config, Module, Rule
-│   │   └── violation.py       # Violation
+│   │   └── misalignment.py    # Misalignment
 │   ├── reporters/             # Generadores de reportes
 │   │   ├── console_reporter.py
 │   │   └── json_reporter.py

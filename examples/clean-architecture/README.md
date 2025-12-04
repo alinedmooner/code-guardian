@@ -1,7 +1,7 @@
 # Example: Clean Architecture Project
-The `violations/` directory contains examples of code that would violate the architecture rules.
+The `misalignments/` directory contains examples of code that would violate the architecture rules.
 
-## Expected Violations
+## Expected Misalignments
 
 ```
 ./run_check.sh

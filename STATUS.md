@@ -43,7 +43,7 @@ code-guardian/
 │   ├── 📁 models/               # Modelos de datos
 │   │   ├── __init__.py          # ✅ 100% coverage
 │   │   ├── config.py            # ✅ 100% coverage - Config, Module, Rule
-│   │   └── violation.py         # ✅ 94% coverage - Violation
+│   │   └── misalignment.py      # ✅ 94% coverage - Misalignment
 │   │
 │   ├── 📁 reporters/            # Generadores de reportes
 │   │   ├── __init__.py

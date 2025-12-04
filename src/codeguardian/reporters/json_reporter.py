@@ -2,17 +2,17 @@
 import json
 from typing import List
 from codeguardian.models.config import Config
-from codeguardian.models.violation import Violation
+from codeguardian.models.misalignment import Misalignment
 class JSONReporter:
     """Reporter for JSON output."""
-    def generate_report(self, violations: List[Violation], config: Config) -> str:
+    def generate_report(self, misalignments: List[Misalignment], config: Config) -> str:
         """Generate a JSON report."""
         report = {
             "project": config.project_name,
             "architecture": config.architecture,
-            "total_violations": len(violations),
-            "passed": len(violations) == 0,
-            "violations": [
+            "total_misalignments": len(misalignments),
+            "passed": len(misalignments) == 0,
+            "misalignments": [
                 {
                     "rule_type": v.rule_type,
                     "severity": v.severity,
@@ -22,7 +22,7 @@ class JSONReporter:
                     "from_module": v.from_module,
                     "to_module": v.to_module,
                 }
-                for v in violations
+                for v in misalignments
             ],
         }
         return json.dumps(report, indent=2, default=str)

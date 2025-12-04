@@ -9,8 +9,8 @@ from codeguardian.analyzer.analyzer import Analyzer
 from codeguardian.models.config import Config, Module, Rule
 
 
-def test_analyzer_detects_violations(tmp_path):
-    """Test that analyzer detects architecture violations."""
+def test_analyzer_detects_misalignments(tmp_path):
+    """Test that analyzer detects architecture misalignments."""
     # Create test structure
     domain_dir = tmp_path / "src" / "domain"
     domain_dir.mkdir(parents=True)
@@ -18,7 +18,7 @@ def test_analyzer_detects_violations(tmp_path):
     app_dir = tmp_path / "src" / "application"
     app_dir.mkdir(parents=True)
 
-    # Create domain file that imports from application (violation)
+    # Create domain file that imports from application (misalignment)
     domain_file = domain_dir / "models.py"
     domain_file.write_text(dedent("""
         from src.application.services import UserService
@@ -56,14 +56,14 @@ def test_analyzer_detects_violations(tmp_path):
 
     # Run analyzer
     analyzer = Analyzer(config, tmp_path)
-    violations = analyzer.analyze()
+    misalignments = analyzer.analyze()
 
-    # Should detect the violation
-    assert len(violations) > 0 or True  # May not detect due to simple path matching
+    # Should detect the misalignment
+    assert len(misalignments) > 0 or True  # May not detect due to simple path matching
 
 
-def test_analyzer_no_violations(tmp_path):
-    """Test analyzer when there are no violations."""
+def test_analyzer_no_misalignments(tmp_path):
+    """Test analyzer when there are no misalignments."""
     # Create clean structure
     domain_dir = tmp_path / "src" / "domain"
     domain_dir.mkdir(parents=True)
@@ -92,8 +92,8 @@ def test_analyzer_no_violations(tmp_path):
     )
 
     analyzer = Analyzer(config, tmp_path)
-    violations = analyzer.analyze()
+    misalignments = analyzer.analyze()
 
-    # Should have no violations
-    assert len(violations) == 0
+    # Should have no misalignments
+    assert len(misalignments) == 0
 
